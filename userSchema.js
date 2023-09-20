@@ -6,6 +6,8 @@ const bookingSchema = new mongoose.Schema({
   address: String,
   mobile: String,
   selectedServices: [String],
+  functionType : String,
+  Detail : String,
 });
 
 // Create a model using the schema

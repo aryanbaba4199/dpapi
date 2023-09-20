@@ -7,7 +7,7 @@ const port = 4000; // You can change the port as needed
 const cors = require('cors');
 
 // Allow requests from your frontend (assuming it runs on port 3000)
-app.use(cors({ origin: 'https://dream-planner.onrender.com/' }));
+app.use(cors({ origin: 'https://dream-planner.vercel.app' }));
 
 app.use(bodyParser.json());
 console.log("hi")
@@ -23,6 +23,8 @@ const bookingSchema = new mongoose.Schema({
   address: String,
   mobile: String,
   selectedServices: [String],
+  functtionType : String,
+  msg : String,
 });
 const Booking = mongoose.model('Booking', bookingSchema);
 
