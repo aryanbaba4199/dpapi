@@ -23,6 +23,8 @@ const bookingSchema = new mongoose.Schema({
   address: String,
   mobile: String,
   selectedServices: [String],
+  functtionType : String,
+  msg : String,
 });
 const Booking = mongoose.model('Booking', bookingSchema);
 
