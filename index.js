@@ -7,7 +7,7 @@ const port = 4000; // You can change the port as needed
 const cors = require('cors');
 
 // Allow requests from your frontend (assuming it runs on port 3000)
-app.use(cors({ origin: 'https://dreamplanner.in'}));
+app.use(cors({ origin: 'https://www.dreamplanner.in'}));
 
 app.use(bodyParser.json());
 console.log("hi")
