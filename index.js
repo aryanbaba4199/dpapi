@@ -8,7 +8,7 @@ const cors = require('cors');
 
 // Allow requests from your frontend (assuming it runs on port 3000)
 app.use(cors({ origin: 'https://www.dreamplanner.in'}));
-
+// app.use(cors({origin : 'http://localhost:3000'}));
 app.use(bodyParser.json());
 console.log("hi")
 
@@ -25,6 +25,7 @@ const bookingSchema = new mongoose.Schema({
   selectedServices: [String],
   functtionType : String,
   msg : String,
+  time : String,
 });
 const Booking = mongoose.model('Booking', bookingSchema);
 
@@ -41,6 +42,16 @@ app.post('/api/bookings', async (req, res) => {
     res.status(500).json({ message: 'Booking failed' });
   }
 });
+
+app.get('/api/getdata', async(req, res)=>{
+  try{
+    const incomingData = await Booking.find();
+    res.status(200).json(incomingData);
+  }catch(e){
+    console.error("Error in retrieving data : ", e);
+    res.status(500).json({message : "error in fetching"});
+  }
+})
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
