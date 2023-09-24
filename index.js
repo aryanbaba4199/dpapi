@@ -7,8 +7,8 @@ const port = 4000; // You can change the port as needed
 const cors = require('cors');
 
 // Allow requests from your frontend (assuming it runs on port 3000)
-app.use(cors({ origin: 'https://www.dreamplanner.in'}));
-// app.use(cors({origin : 'http://localhost:3000'}));
+// app.use(cors({ origin: 'https://www.dreamplanner.in'}));
+app.use(cors({origin : 'http://localhost:3000'}));
 app.use(bodyParser.json());
 console.log("hi")
 
@@ -51,7 +51,25 @@ app.get('/api/getdata', async(req, res)=>{
     console.error("Error in retrieving data : ", e);
     res.status(500).json({message : "error in fetching"});
   }
-})
+});
+
+// DELETE endpoint to delete data by ID
+app.delete('/api/delete/:itemId', async (req, res) => {
+  try {
+    const itemId = req.params.itemId;
+    const deletedItem = await Booking.findByIdAndRemove(itemId);
+
+    if (!deletedItem) {
+      return res.status(404).json({ message: 'Item not found' });
+    }
+
+    res.status(200).json({ message: 'Item deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting data:', error);
+    res.status(500).json({ message: 'Error deleting data' });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
