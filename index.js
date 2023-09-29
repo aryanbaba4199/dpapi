@@ -20,6 +20,7 @@ mongoose.connect("mongodb+srv://aryanbaba4199:Aryan7277@cluster0.swtqxeq.mongodb
 
 const bookingSchema = new mongoose.Schema({
   name: String,
+  email : String,
   address: String,
   mobile: String,
   selectedServices: [String],
@@ -43,15 +44,35 @@ app.post('/api/bookings', async (req, res) => {
   }
 });
 
+// Displaying bookindg data
 app.get('/api/getdata', async(req, res)=>{
   try{
     const incomingData = await Booking.find();
+    
     res.status(200).json(incomingData);
   }catch(e){
     console.error("Error in retrieving data : ", e);
     res.status(500).json({message : "error in fetching"});
   }
 });
+
+// Displaying user data
+app.get('/api/userdata/:userid', async (req, res) => {
+  try {
+    const userEmail = req.params.userid; // Retrieve user email from request parameters
+    console.log(userEmail);
+    const incomingData = await Booking.find({ email: userEmail });
+
+    res.status(200).json(incomingData);
+    console.log(incomingData);
+  } catch (e) {
+    console.error("Error in retrieving data : ", e);
+    res.status(500).json({ message: "error in fetching" });
+  }
+});
+
+
+
 
 // DELETE endpoint to delete data by ID
 app.delete('/api/delete/:itemId', async (req, res) => {
@@ -74,6 +95,5 @@ app.delete('/api/delete/:itemId', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
 
 
