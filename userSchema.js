@@ -31,6 +31,8 @@ const bookingSchema = new mongoose.Schema({
   functionType : String,
   Detail : String,
   time : String,
+  status : String,
+  payment : String,
 });
 
 
