@@ -6,6 +6,7 @@ const app = express();
 const port = 4000; // You can change the port as needed
 const cors = require('cors');
 const User = require('./User');
+const Post = require('./Schema/postSchema');
 const passport = require('passport');
 const {psinit} = require('./passport');
 const expressSession = require('express-session');
@@ -49,10 +50,37 @@ const bookingSchema = new mongoose.Schema({
 const Booking = mongoose.model('Booking', bookingSchema);
 
 
+// __________________________Post Creating ________________________
+app.post('/api/glimpse', async (req, res) => {
+  try {
+    const postData  = req.body;
+    console.log("Post Data : ", postData);
+    const newPost = new Post(postData);
+    await newPost.save();
+    console.log("post creatd");
+    res.status(201).json({message : "201"})
+     
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).json({ error: 'An error occurred while creating the post.' });
+  }
+});
+
+
+// __________________Showing Posts Back ___________________
+app.get('/api/glimpse', async (req, res) => {
+  try {
+    const posts = await Post.find();
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).json({ error: 'An error occurred while fetching posts.' });
+  }
+});
 
 
 
-
+// --------------User Registration______________
 app.post("/api/signup", async (req, res) => {
   try {
     const user = await User.findOne({ useremail: req.body.useremail });
